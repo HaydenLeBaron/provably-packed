@@ -5,23 +5,7 @@ namespace Dimensions
 
 -- def rValue := Float
 
-  namespace Mass
 
-    -- def Grams := Int
-
-    inductive T
-    | Durable    : Int → T
-    | Consumable : Range Int → T
-
-    def isDurable : T → Bool
-    | Mass.T.Durable _ => true
-    | Mass.T.Consumable _ => false
-
-    def toGrams : T → Option Int
-    | Mass.T.Durable grams => some grams
-    | Mass.T.Consumable _ => none
-
-  end Mass
 
 end Dimensions
 
@@ -38,12 +22,12 @@ namespace Item
       brand : String
       model : String
       url   : Option String
-      mass  : Dimensions.Mass.T
+      mass  : Int
       cost  : Int
 
     structure GenericR where
       description : String
-      mass        : Dimensions.Mass.T
+      mass        : Int
       cost        : Int
 
     inductive T
@@ -90,7 +74,8 @@ namespace Item
 
   namespace Item
 
-  def getMass (item : Item.T) : Dimensions.Mass.T :=
+  @[simp, reducible]
+  def getMass (item : Item.T) : Int :=
     match item.product with
     | Product.T.Specific s => s.mass
     | Product.T.Generic g  => g.mass
@@ -107,7 +92,7 @@ def inflatableSleepingPad : Item.T :=
       brand := "Therm-a-Rest",
       model := "NeoAir XLite",
       url   := some "https://www.example.com/inflatableSleepingPad",
-      mass  := Dimensions.Mass.T.Durable 340,
+      mass  := 340,
       cost  := 19999
     },
     rValue := some 4.2,
@@ -121,7 +106,7 @@ def ultralightQuilt : Item.T :=
       brand := "Enlightened Equipment",
       model := "Revelation Quilt",
       url   := some "https://www.example.com/ultralightQuilt",
-      mass  := Dimensions.Mass.T.Durable 620,
+      mass  := 620,
       cost  := 25000
     }
   }
@@ -133,7 +118,7 @@ def groundTarp : Item.T :=
       brand := "Generic",
       model := "Ground Tarp",
       url   := none,
-      mass  := Dimensions.Mass.T.Durable 300,
+      mass  :=  300,
       cost  := 1500
     }
   }
@@ -145,7 +130,7 @@ def tent : Item.T :=
       brand := "Big Agnes",
       model := "Copper Spur HV UL2",
       url   := some "https://www.example.com/tent",
-      mass  := Dimensions.Mass.T.Durable 1400,
+      mass  :=  1400,
       cost  := 45000
     }
   }
@@ -157,7 +142,7 @@ def merinoWoolBaseLayer : Item.T :=
       brand := "Icebreaker",
       model := "Merino Wool Base Layer",
       url   := some "https://www.example.com/merinoWoolBaseLayer",
-      mass  := Dimensions.Mass.T.Durable 200,
+      mass  :=  200,
       cost  := 10000
     }
   }
@@ -169,7 +154,7 @@ def warmJacket : Item.T :=
       brand := "Patagonia",
       model := "Down Sweater Jacket",
       url   := some "https://www.example.com/downJacket",
-      mass  := Dimensions.Mass.T.Durable 370,
+      mass  :=  370,
       cost  := 27900
     }
   }
@@ -181,7 +166,7 @@ def umbrella : Item.T :=
       brand := "Repel",
       model := "Trekking Umbrella",
       url   := some "https://www.example.com/umbrella",
-      mass  := Dimensions.Mass.T.Durable 220,
+      mass  :=  220,
       cost  := 3000
     }
   }
@@ -193,7 +178,7 @@ def windbreaker : Item.T :=
       brand := "Arc'teryx",
       model := "Squamish Hoody",
       url   := some "https://www.example.com/windbreaker",
-      mass  := Dimensions.Mass.T.Durable 155,
+      mass  :=  155,
       cost  := 15900
     }
   }
@@ -205,7 +190,7 @@ def woobiePoncho : Item.T :=
       brand := "USGI",
       model := "Woobie Poncho Liner",
       url   := some "https://www.example.com/woobiePoncho",
-      mass  := Dimensions.Mass.T.Durable 900,
+      mass  :=  900,
       cost  := 4000
     }
   }
@@ -217,7 +202,7 @@ def rainPoncho : Item.T :=
       brand := "Generic",
       model := "Rain Poncho",
       url   := some "https://www.example.com/rainPoncho",
-      mass  := Dimensions.Mass.T.Durable 300,
+      mass  :=  300,
       cost  := 2500
     }
   }
@@ -229,7 +214,7 @@ def rainPonchoAndParacord : Item.T :=
       brand := "Generic",
       model := "Rain Poncho and Paracord",
       url   := none,
-      mass  := Dimensions.Mass.T.Durable 500,
+      mass  :=  500,
       cost  := 3500
     }
   }
@@ -249,15 +234,14 @@ structure ClothingSystem where
   waterProtection  : Item.T
   windProtection   : Item.T
 
--- Example Solution A
 
 
 
 structure UnipurposeULItemLoadout extends SleepSystem, ShelterSystem, ClothingSystem where
-  mass_wall_lt_1401 : ∃ grams : Int, Item.getMass wall = Dimensions.Mass.T.Durable grams ∧ grams < 1401
+  mass_wall_lt_1401 : Item.getMass wall < 1401
 
 structure MultipurposeItemLoadout extends SleepSystem, ShelterSystem, ClothingSystem where
-  mass_wall_lt_3500 : ∃ grams : Int, Item.getMass wall = Dimensions.Mass.T.Durable grams ∧ grams < 3500
+  mass_wall_lt_3500 : Item.getMass wall < 3500
 
 
 
@@ -271,19 +255,19 @@ def unipurposeULItemLoadout : UnipurposeULItemLoadout :=
     midLayer         := warmJacket,
     waterProtection  := umbrella,
     windProtection   := windbreaker,
-    mass_wall_lt_1401 := ⟨1400, ⟨by rfl, by decide⟩⟩
+    mass_wall_lt_1401 := by decide
   }
 
 -- Example Solution B
--- def multipurposeItemLoadout : MultipurposeItemLoadout :=
---   {
---     groundInsulator  := inflatableSleepingPad,
---     bodyHeatRetainer := woobiePoncho,
---     groundInsulation := groundTarp,
---     wall             := rainPonchoAndParacord,
---     baseLayer        := merinoWoolBaseLayer,
---     midLayer         := woobiePoncho,
---     waterProtection  := rainPoncho,
---     windProtection   := rainPoncho,
---     mass_wall_lt_3500 := ⟨3501, ⟨by rfl, by decide⟩⟩
---   }
+def multipurposeItemLoadout : MultipurposeItemLoadout :=
+  {
+    groundInsulator  := inflatableSleepingPad,
+    bodyHeatRetainer := woobiePoncho,
+    groundInsulation := groundTarp,
+    wall             := rainPonchoAndParacord,
+    baseLayer        := merinoWoolBaseLayer,
+    midLayer         := woobiePoncho,
+    waterProtection  := rainPoncho,
+    windProtection   := rainPoncho,
+    mass_wall_lt_3500 := by decide
+  }
