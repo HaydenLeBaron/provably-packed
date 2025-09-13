@@ -111,6 +111,19 @@ def ultralightQuilt : Item.T :=
     }
   }
 
+def heaviestQuiltInTheWorld : Item.T :=
+  {
+    ownershipStatus := Ownership.StatusS.Owned Ownership.ActivityS.Active (Ownership.InventoryS.Count 1),
+    product := Product.T.Specific {
+      brand := "Enlightened Equipment",
+      model := "Revelation Quilt",
+      url   := some "https://www.example.com/ultralightQuilt",
+      mass  := 100000000000,
+      cost  := 25000
+    }
+  }
+
+
 def groundTarp : Item.T :=
   {
     ownershipStatus := Ownership.StatusS.Owned Ownership.ActivityS.Active (Ownership.InventoryS.Count 1),
@@ -225,7 +238,7 @@ structure SleepSystem where
   bodyHeatRetainer : Item.T
 
 structure ShelterSystem where
-  groundInsulation : Item.T
+  groundCover : Item.T
   wall             : Item.T
 
 structure ClothingSystem where
@@ -235,39 +248,76 @@ structure ClothingSystem where
   windProtection   : Item.T
 
 
-
+def totalMass (s : SleepSystem) (sh : ShelterSystem) (c : ClothingSystem) : Int :=
+  Item.getMass s.groundInsulator + Item.getMass s.bodyHeatRetainer +
+  Item.getMass sh.groundCover + Item.getMass sh.wall +
+  Item.getMass c.baseLayer + Item.getMass c.midLayer +
+  Item.getMass c.waterProtection + Item.getMass c.windProtection
 
 structure UnipurposeULItemLoadout extends SleepSystem, ShelterSystem, ClothingSystem where
   mass_wall_lt_1401 : Item.getMass wall < 1401
+  total_mass_lt_10000 : totalMass (toSleepSystem) (toShelterSystem) (toClothingSystem) < 10000
 
 structure MultipurposeItemLoadout extends SleepSystem, ShelterSystem, ClothingSystem where
   mass_wall_lt_3500 : Item.getMass wall < 3500
+  total_mass_lt_10000 : totalMass (toSleepSystem) (toShelterSystem) (toClothingSystem) < 10000
 
 
-
-def unipurposeULItemLoadout : UnipurposeULItemLoadout :=
+-- Example Solution A (succeeds)
+def unipurposeULItemLoadoutSuccess : UnipurposeULItemLoadout :=
   {
     groundInsulator  := inflatableSleepingPad,
     bodyHeatRetainer := ultralightQuilt,
-    groundInsulation := groundTarp,
+    groundCover := groundTarp,
     wall             := tent,
     baseLayer        := merinoWoolBaseLayer,
     midLayer         := warmJacket,
     waterProtection  := umbrella,
     windProtection   := windbreaker,
-    mass_wall_lt_1401 := by decide
+    mass_wall_lt_1401 := by decide,
+    total_mass_lt_10000 := by decide
   }
 
--- Example Solution B
-def multipurposeItemLoadout : MultipurposeItemLoadout :=
+-- Example Solution B (succeeds)
+def multipurposeItemLoadoutSuccess : MultipurposeItemLoadout :=
   {
     groundInsulator  := inflatableSleepingPad,
     bodyHeatRetainer := woobiePoncho,
-    groundInsulation := groundTarp,
+    groundCover      := groundTarp,
     wall             := rainPonchoAndParacord,
     baseLayer        := merinoWoolBaseLayer,
     midLayer         := woobiePoncho,
     waterProtection  := rainPoncho,
     windProtection   := rainPoncho,
-    mass_wall_lt_3500 := by decide
+    mass_wall_lt_3500 := by decide,
+    total_mass_lt_10000 := by decide
   }
+
+
+-- UNCOMMENTME: Fails to typecheck because we are packing the heaviestQuiltInTheWorld
+-- def unipurposeULItemLoadout_TOO_HEAVY : UnipurposeULItemLoadout :=
+--   {
+--     groundInsulator  := inflatableSleepingPad,
+--     bodyHeatRetainer := heaviestQuiltInTheWorld,
+--     groundCover      := groundTarp,
+--     wall             := tent,
+--     baseLayer        := merinoWoolBaseLayer,
+--     midLayer         := warmJacket,
+--     waterProtection  := umbrella,
+--     windProtection   := windbreaker,
+--     mass_wall_lt_1401 := by decide,
+--     total_mass_lt_10000 := by decide
+--   }
+
+-- UNCOMMENTME: Fails to typecheck because we forgot to pack some things
+-- def unipurposeULItemLoadout_FORGOT_SOMETHING : UnipurposeULItemLoadout :=
+--   {
+--     groundInsulator  := inflatableSleepingPad,
+--     bodyHeatRetainer := ultralightQuilt,
+--     groundCover      := groundTarp,
+--     baseLayer        := merinoWoolBaseLayer,
+--     midLayer         := warmJacket,
+--     windProtection   := windbreaker,
+--     mass_wall_lt_1401 := by decide,
+--     total_mass_lt_10000 := by decide
+--   }
