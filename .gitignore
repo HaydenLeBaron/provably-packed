@@ -1,0 +1,26 @@
+# Lake build output
+.lake/
+
+# Old lake build output
+build/
+
+# Lean project-local configuration files
+.lean_options
+
+# Emacs temp files
+*~
+#*
+.#*
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# vim
+*.swp
+*.swo
+
+# Other
+compile_commands.json
