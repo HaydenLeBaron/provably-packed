@@ -3,6 +3,7 @@ set_option diagnostics true
 
 abbrev Gram := Nat
 
+
 namespace Loadout
 
   structure Item where
