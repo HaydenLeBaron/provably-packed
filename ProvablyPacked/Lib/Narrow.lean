@@ -1,3 +1,10 @@
+/-!
+# Narrow
+
+Provides type-level narrowing of sum types by restricting variants to specific subsets.
+This module enables creating types that only accept certain constructors from a parent sum type.
+-/
+
 set_option diagnostics true
 
 /-! LIBRARY ----------------- -/

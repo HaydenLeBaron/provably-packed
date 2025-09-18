@@ -1,5 +1,12 @@
 import ProvablyPacked.User.Domain
 
+/-!
+# Item
+
+Defines the structure for items that can be packed in expeditions.
+Each item has context requirements specifying the conditions under which it can be used.
+-/
+
 namespace Item
   structure T where
     name : String
