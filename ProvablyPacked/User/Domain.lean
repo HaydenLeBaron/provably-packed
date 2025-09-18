@@ -1,0 +1,21 @@
+/-!  DOMAIN MODELING ----------------- -/
+namespace Precipitation
+  inductive T where
+    | NoPrecip | YesPrecip
+    deriving DecidableEq, Repr
+  open T
+end Precipitation
+
+namespace Bugginess
+  inductive T where
+    | NoBugs | LightBugs | HeavyBugs
+    deriving DecidableEq, Repr
+  open T
+end Bugginess
+
+namespace Fashion
+  inductive T where
+    | Casual | Formal
+    deriving DecidableEq, Repr
+  open T
+end Fashion

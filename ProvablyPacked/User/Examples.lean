@@ -1,112 +1,13 @@
-set_option diagnostics true
-
-/-! LIBRARY ----------------- -/
-namespace Narrow
-    /--
-    Implements "narrowed sum types" by providing a type-level representation of subsets of sum types and utils.
-
-    A `T` is a sum type whose set of `variants` form a subset of the variants of`α` .
-
-    e.g.
-    ```lean
-    inductive MyBoolT where | MyFalse | MyTrue
-    def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
-    -- Next line typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT`
-    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
-    -- Next line fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT`
-    def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
-    inductive OtherT where | Other
-    -- Next line fails to typecheck because `OtherT.Other` is not a member of `MyBoolT`
-    def MyBoolAndMore := Narrow.T MyBoolT [MyBoolT.MyTrue, MyBoolT.MyFalse, OtherT.Other]
-    ```
-  -/
-  inductive T (α : Type) (variants : List α) : Type where
-    | mk (a : α) (h : a ∈ variants) : T α variants
-
-  open T
-
-  /-- Tactic to prove that a variant of a sum type α is a member of a "narrowed" type T α subset -/
-  syntax (name := narrowTac) "narrowTac" : tactic
-  macro_rules
-    | `(tactic| narrowTac) => `(tactic| first | decide | simp)
-end Narrow
-
-
-/-!  DOMAIN MODELING ----------------- -/
-namespace Precipitation
-  inductive T where
-    | NoPrecip | YesPrecip
-    deriving DecidableEq, Repr
-  open T
-end Precipitation
-
-namespace Bugginess
-  inductive T where
-    | NoBugs | LightBugs | HeavyBugs
-    deriving DecidableEq, Repr
-  open T
-end Bugginess
-
-namespace Fashion
-  inductive T where
-    | Casual | Formal
-    deriving DecidableEq, Repr
-  open T
-end Fashion
-
-namespace Expedition
-  open Bugginess Precipitation
-
-  structure T (equippedBugginess : List Bugginess.T)
-              (equippedPrecip   : List Precipitation.T) where
-    name : String
-    expectedBugginess     : List ( ( Narrow.T Bugginess.T ) equippedBugginess)
-    expectedPrecipitation : List ( ( Narrow.T Precipitation.T) equippedPrecip )
-end Expedition
-
-namespace VariadicExpedition
-  open Narrow
-
-  /-- A single context "dimension" pairing a base type with the list of allowed (equipped) values. -/
-  structure Dim where
-    τ : Type
-    equipped : List τ
-
-  universe u v
-  /- A heterogeneous list indexed by a list of indices (universe-polymorphic). -/
-  inductive HList {ι : Type u} (β : ι → Type v) : List ι → Type (max u v) where
-    | nil : HList β []
-    | cons {i is} (head : β i) (tail : HList β is) : HList β (i :: is)
-
-  infixr:67 " ::: " => HList.cons
-  notation "HNil" => HList.nil
-
-  /-- For a given dimension, the type of its expected values. -/
-  abbrev ExpectedFor (d : Dim) : Type := List (Narrow.T d.τ d.equipped)
-
-  /-- A variadic form of `Expedition.T` that can be instantiated with any number of context dimensions. -/
-  structure T (dims : List Dim) where
-    name : String
-    expected : HList ExpectedFor dims
-end VariadicExpedition
-
-namespace Item
-  structure T where
-    name : String
-    /-- These are the contexts in which is is ok to use this item
-      (the contexts in which the item is equippable for)-/
-    okBugginess : List Bugginess.T
-    okPrecipitation : List Precipitation.T
-    okFashion : List Fashion.T
-end Item
-
-
+import ProvablyPacked.Lib.Narrow
+import ProvablyPacked.Lib.Expedition
+import ProvablyPacked.Lib.Item
+import ProvablyPacked.User.Domain
 
 /-! MODEL INSTANTIATION (TYPE CHECKING DEMO) ----------------- -/
 
 namespace Instantiated
 
-  /- Your concrete “May 2026 Camping Trip”, obtained by *instantiating* the parameters. -/
+  /- Your concrete "May 2026 Camping Trip", obtained by *instantiating* the parameters. -/
   def May2026Expedition :
     -- Here you specify the interface
       Expedition.T
@@ -192,6 +93,3 @@ namespace Instantiated
     end ATripWithGearExample
 
 end Instantiated
-
--- NEXT:
--- - create new repo, separate parts into different files, and then implement many examples of expeditions
