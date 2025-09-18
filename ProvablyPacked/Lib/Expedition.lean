@@ -2,16 +2,6 @@ import ProvablyPacked.Lib.Narrow
 import ProvablyPacked.User.Domain
 
 namespace Expedition
-  open Bugginess Precipitation
-
-  structure T (equippedBugginess : List Bugginess.T)
-              (equippedPrecip   : List Precipitation.T) where
-    name : String
-    expectedBugginess     : List ( ( Narrow.T Bugginess.T ) equippedBugginess)
-    expectedPrecipitation : List ( ( Narrow.T Precipitation.T) equippedPrecip )
-end Expedition
-
-namespace VariadicExpedition
   open Narrow
 
   /-- A single context "dimension" pairing a base type with the list of allowed (equipped) values. -/
@@ -35,4 +25,4 @@ namespace VariadicExpedition
   structure T (dims : List Dim) where
     name : String
     expected : HList ExpectedFor dims
-end VariadicExpedition
+end Expedition
