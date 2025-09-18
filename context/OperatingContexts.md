@@ -67,5 +67,10 @@ structure AgentialState where
     activity: Activity
     minToleratedComfort: MinimumToleratedComfort
 
+structure Situation where
+    externalConditions : ExternalConditions
+    agentialState : AgentialState
+    
+
 
 

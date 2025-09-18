@@ -15,6 +15,9 @@ inductive Precipitation
   | HiPrecip
 deriving Repr, BEq, DecidableEq
 
+def PrecipitationSubset (subPrecipitation : List Precipitation) := { l : List Precipitation // l.all (· ∈ subPrecipitation) }
+deriving Repr, BEq, DecidableEq
+
 inductive Windiness
   | NoWind
   | LightWind
@@ -43,7 +46,18 @@ inductive Escapability
   | PrepareForTheWorst
 deriving Repr, BEq, DecidableEq
 
-structure ExternalConditions where
+-- structure ExternalConditions where
+--   precipitation : Precipitation
+--   windiness : Windiness
+--   temperatureApprox : TemperatureApprox
+--   bugginess : Bugginess
+--   fashionability : Fashionability
+--   campability : Campability
+--   escapability : Escapability
+-- deriving Repr
+
+
+structure ExternalConditions (α : Type u) where
   precipitation : Precipitation
   windiness : Windiness
   temperatureApprox : TemperatureApprox
@@ -52,6 +66,7 @@ structure ExternalConditions where
   campability : Campability
   escapability : Escapability
 deriving Repr
+
 
 inductive Shelteredness
   | Sheltered
@@ -75,47 +90,53 @@ structure AgentialState where
     minToleratedComfort: MinToleratedComfort
 deriving Repr, BEq, DecidableEq
 
-structure OperatingContext where
-    externalConditions : ExternalConditions
-    agentialState : AgentialState
-deriving Repr
+structure ArraySized (α : Type u) (length : Nat)  where
+  array : Array α
+  size_eq_length : array.size = length
 
-structure ContextTemplate where
-    precipitation : List Precipitation
-    windiness : List Windiness
-    temperatureApprox : List TemperatureApprox
-    bugginess : List Bugginess
-    fashionability : List Fashionability
-    campability : List Campability
-    escapability : List Escapability
-    activity : List Activity
-    minToleratedComfort : List MinToleratedComfort
-  deriving Repr, BEq, DecidableEq
 
-def expandTemplate (template : ContextTemplate) : List OperatingContext :=
-  template.precipitation.flatMap fun precip =>
-  template.windiness.flatMap fun wind =>
-  template.temperatureApprox.flatMap fun temp =>
-  template.bugginess.flatMap fun bugs =>
-  template.fashionability.flatMap fun fashion =>
-  template.campability.flatMap fun camp =>
-  template.escapability.flatMap fun escape =>
-  template.activity.flatMap fun act =>
-  template.minToleratedComfort.map fun comfort =>
-  { externalConditions := {
-      precipitation := precip,
-      windiness := wind,
-      temperatureApprox := temp,
-      bugginess := bugs,
-      fashionability := fashion,
-      campability := camp,
-      escapability := escape
-    },
-    agentialState := {
-      activity := act,
-      minToleratedComfort := comfort
-    }
-  }
+-- structure OperatingContext where
+--     externalConditions : ExternalConditions
+--     agentialState : AgentialState
+-- deriving Repr
+
+
+-- structure ContextTemplate where
+--     precipitation : List Precipitation
+--     windiness : List Windiness
+--     temperatureApprox : List TemperatureApprox
+--     bugginess : List Bugginess
+--     fashionability : List Fashionability
+--     campability : List Campability
+--     escapability : List Escapability
+--     activity : List Activity
+--     minToleratedComfort : List MinToleratedComfort
+--   deriving Repr, BEq, DecidableEq
+
+-- def expandTemplate (template : ContextTemplate) : List OperatingContext :=
+--   template.precipitation.flatMap fun precip =>
+--   template.windiness.flatMap fun wind =>
+--   template.temperatureApprox.flatMap fun temp =>
+--   template.bugginess.flatMap fun bugs =>
+--   template.fashionability.flatMap fun fashion =>
+--   template.campability.flatMap fun camp =>
+--   template.escapability.flatMap fun escape =>
+--   template.activity.flatMap fun act =>
+--   template.minToleratedComfort.map fun comfort =>
+--   { externalConditions := {
+--       precipitation := precip,
+--       windiness := wind,
+--       temperatureApprox := temp,
+--       bugginess := bugs,
+--       fashionability := fashion,
+--       campability := camp,
+--       escapability := escape
+--     },
+--     agentialState := {
+--       activity := act,
+--       minToleratedComfort := comfort
+--     }
+--   }
 
 
 -- TODO: define this as a macro or syntax extension, not a function, then delete expandTemplate
@@ -157,6 +178,18 @@ def expandTemplate (template : ContextTemplate) : List OperatingContext :=
 -/
 
 -- Example usage: Define a backpacking trip context template
+-- def backpackingTrip : ContextTemplate := {
+--   precipitation := [Precipitation.NoPrecip],
+--   windiness := [Windiness.NoWind, Windiness.LightWind],
+--   temperatureApprox := [TemperatureApprox.C10, TemperatureApprox.C20], -- 10-20C
+--   bugginess := [Bugginess.HeavyBugs], -- Prepare for heavy bugs
+--   fashionability := [Fashionability.Casual], -- Don't care about fashion
+--   campability := [Campability.AdvisableOpenly], -- Backcountry camping
+--   escapability := [Escapability.PrepareForTheWorst], -- No escape hatch
+--   activity := [Activity.Sedentary, Activity.Active], -- Multi-day backpacking
+--   minToleratedComfort := [MinToleratedComfort.Survival] -- Not trying to be comfy
+-- }
+
 def backpackingTrip : ContextTemplate := {
   precipitation := [Precipitation.NoPrecip],
   windiness := [Windiness.NoWind, Windiness.LightWind],
