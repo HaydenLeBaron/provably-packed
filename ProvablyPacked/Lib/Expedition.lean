@@ -21,7 +21,7 @@ namespace Expedition
   /-- For a given dimension, the type of its expected values. -/
   abbrev ExpectedFor (d : Dim) : Type := List (Narrow.T d.τ d.equipped)
 
-  /-- A variadic form of `Expedition.T` that can be instantiated with any number of constraint dimensions. -/
+  /-- A `T` can be instantiated with any number of constraint dimensions. -/
   structure T (dims : List Dim) where
     name : String
     expected : HList ExpectedFor dims

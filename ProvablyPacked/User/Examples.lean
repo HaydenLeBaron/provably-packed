@@ -12,31 +12,39 @@ namespace Instantiated
 
       def bugproofShirt : Item.T :=
       { name := "Bugproof Shirt"
-      , okBugginess := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs]
-      , okPrecipitation := [Precipitation.T.NoPrecip]
-      , okFashion := [Fashion.T.Casual]
+      , properties :=
+          [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }⟩
+          , ⟨Precipitation.T, { values := [Precipitation.T.NoPrecip] }⟩
+          , ⟨Fashion.T, { values := [Fashion.T.Casual] }⟩
+          ]
       }
 
       def clammyWaterproofJacket : Item.T :=
       { name := "Clammy Waterproof Jacket"
-      , okBugginess := [Bugginess.T.NoBugs, Bugginess.T.LightBugs]
-      , okPrecipitation := [Precipitation.T.YesPrecip] -- You wouldn't want to wear this with no precipitation
-      , okFashion := [Fashion.T.Formal]
+      , properties :=
+          [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }⟩
+          , ⟨Precipitation.T, { values := [Precipitation.T.YesPrecip] }⟩ -- You wouldn't want to wear this with no precipitation
+          , ⟨Fashion.T, { values := [Fashion.T.Formal] }⟩
+          ]
       }
 
+      -- FIXME: This isn't really unioning gear attributes, it's just listing all the values
+      -- def unionedGearAttributes : Item.T :=
+      -- { name := "Bugproof and Clammy Waterproof"
+      -- , properties :=
+      --     [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] ++ [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }⟩
+      --     , ⟨Precipitation.T, { values := [Precipitation.T.NoPrecip] ++ [Precipitation.T.YesPrecip] }⟩
+      --     , ⟨Fashion.T, { values := [Fashion.T.Casual] ++ [Fashion.T.Formal] }⟩
+      --     ]
+      -- }
 
-      def unionedGearAttributes : Item.T :=
-      { name := "Bugproof and Clammy Waterproof"
-      , okBugginess := bugproofShirt.okBugginess ++ clammyWaterproofJacket.okBugginess
-      , okPrecipitation := bugproofShirt.okPrecipitation ++ clammyWaterproofJacket.okPrecipitation
-      , okFashion := bugproofShirt.okFashion ++ clammyWaterproofJacket.okFashion
-      }
-
+      -- TODO: we need to be plugging in the actually unioned gear attributes. Then after we do this, we need to move this
+      ---- unioning gear concern to Expedition.lean
       /-- The same trip specified via the variadic form by packaging each context as a `Dim`. -/
       def variadicDims : List Expedition.Dim :=
-      [ { τ := Bugginess.T,     equipped := unionedGearAttributes.okBugginess }
-      , { τ := Precipitation.T, equipped := unionedGearAttributes.okPrecipitation }
-      , { τ := Fashion.T,     equipped := unionedGearAttributes.okFashion }
+      [ { τ := Bugginess.T,     equipped := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs, Bugginess.T.NoBugs, Bugginess.T.LightBugs] }
+      , { τ := Precipitation.T, equipped := [Precipitation.T.NoPrecip, Precipitation.T.YesPrecip] }
+      , { τ := Fashion.T,       equipped := [Fashion.T.Casual, Fashion.T.Formal] }
       ]
 
       def variadicTrip : Expedition.T variadicDims :=
