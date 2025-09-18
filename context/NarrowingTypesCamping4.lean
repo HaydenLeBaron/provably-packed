@@ -104,7 +104,6 @@ namespace Instantiated
       }
 
 
-
     -- FIXME?: In this example I am using the union of the allowed attributes of the gear
     --         to define the properties my gear will satisfy together. "expected" is kind of a misnomer in this context because I was thinking of it backwards.
     -- If my attributes don't cover my bases then it will not type-check (good)
