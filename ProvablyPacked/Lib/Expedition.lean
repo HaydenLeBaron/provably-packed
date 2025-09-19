@@ -1,5 +1,6 @@
 import ProvablyPacked.Lib.Narrow
 import ProvablyPacked.Lib.HList
+import ProvablyPacked.Lib.Item
 import ProvablyPacked.User.Domain
 
 /-!
@@ -16,16 +17,29 @@ that takes a list of dims in the universe of trip constaints and a a list of exp
 namespace Expedition
   open Narrow HList
 
-  /-- A single constraint "dimension" pairing a base type with the list of allowed (equipped) values. -/
-  structure Dim where
-    τ : Type
-    equipped : List τ
+  /-- Pair up a base type with its `Item.Property` so that we can index `expected`
+      by both the type and the concrete equipped values. -/
+  abbrev SigmaProp := Σ (α : Type), Item.Property α
 
-  /-- For a given dimension, the type of its expected values. -/
-  abbrev ExpectedFor (d : Dim) : Type := List (Narrow.T d.τ d.equipped)
+  /-- Convert an `HList` of `Item.Property` values (indexed by a list of types)
+      into a value-level list of `(type, property)` pairs to index expectations. -/
+  def propsToSigmaList {types : List Type}
+      (props : HList.T Item.Property types) : List SigmaProp := by
+    cases props with
+    | nil =>
+      exact []
+    | cons head tail =>
+      exact ⟨_, head⟩ :: propsToSigmaList tail
 
-  /-- A `T` can be instantiated with any number of constraint dimensions. -/
-  structure T (dims : List Dim) where
+  /-- For a given `(type, property)` pair, the type of its expected values. -/
+  abbrev ExpectedForSigma (sp : SigmaProp) : Type :=
+    List (Narrow.T sp.1 sp.2.values)
+
+  /-- An `Expedition.T` is indexed by the concrete properties available
+      for each dimension (e.g., Bugginess, Precipitation, Fashion). The
+      expected values are specified per-dimension as narrowed values that
+      must belong to the corresponding property's equipped list. -/
+  structure T {types : List Type} (properties : HList.T Item.Property types) where
     name : String
-    expected : HList.T ExpectedFor dims
+    expected : HList.T ExpectedForSigma (propsToSigmaList properties)
 end Expedition
