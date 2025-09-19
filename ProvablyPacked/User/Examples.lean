@@ -28,15 +28,11 @@ namespace Instantiated
           ::: HNil
       }
 
-      -- FIXME: This isn't really unioning gear attributes, it's just listing all the values
-      -- def unionedGearAttributes : Item.T :=
-      -- { name := "Bugproof and Clammy Waterproof"
-      -- , properties :=
-      --     [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] ++ [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }⟩
-      --     , ⟨Precipitation.T, { values := [Precipitation.T.NoPrecip] ++ [Precipitation.T.YesPrecip] }⟩
-      --     , ⟨Fashion.T, { values := [Fashion.T.Casual] ++ [Fashion.T.Formal] }⟩
-      --     ]
-      -- }
+      /-- Example: union the properties of two items pointwise across dimensions. -/
+      def unionedShirtAndJacket : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
+      { name := "Unioned Bugproof + Clammy Waterproof"
+      , properties := Item.unionProperties bugproofShirt.properties clammyWaterproofJacket.properties
+      }
 
       -- TODO: we need to be plugging in the actually unioned gear attributes. Then after we do this, we need to move this
       ---- unioning gear concern to Expedition.lean

@@ -19,6 +19,19 @@ namespace Item
     /-- Heterogeneous list of properties indexed by the type list -/
     properties : HList.T Property types
 
+  open HList
+
+  /-- Union two `Property` values by concatenating lists. Note: does not deduplicate. -/
+  def Property.union {α : Type} (p₁ p₂ : Property α) : Property α :=
+    { values := p₁.values ++ p₂.values }
+
+  /-- Pointwise union of two `HList` collections of properties over the same type index list. -/
+  def unionProperties {types : List Type}
+      (xs ys : HList.T Property types) : HList.T Property types :=
+    match xs, ys with
+    | .nil, .nil => .nil
+    | .cons p₁ t₁, .cons p₂ t₂ => .cons (Property.union p₁ p₂) (unionProperties t₁ t₂)
+
   /- Get a property from a T by type index -/
   -- def getValuesByType {types : List Type} (item : T types) {α : Type} (idx : α ∈ types) : Property α :=
   --   item.properties.get idx

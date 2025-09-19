@@ -15,9 +15,6 @@ namespace HList
     | nil : T β []
     | cons {i is} (head : β i) (tail : T β is) : T β (i :: is)
 
-  /-- Get an element from an HList by membership proof -/
-    --def get {ι : Type u} {β : ι → Type v} {is : List ι} {i : ι} (hl : HList β is) (mem : i ∈ is) : β i :=
-
   infixr:67 " ::: " => T.cons
   notation "HNil" => T.nil
 
