@@ -57,7 +57,7 @@ namespace Instantiated
 
     def myNewTrip : Expedition.T unionedShirtAndJacket.properties :=
       { name := "A Variadic Trip with Gear"
-      , expected :=
+      , expectedProperties :=
           [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
         ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
         ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]

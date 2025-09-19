@@ -39,7 +39,7 @@ namespace Expedition
       for each dimension (e.g., Bugginess, Precipitation, Fashion). The
       expected values are specified per-dimension as narrowed values that
       must belong to the corresponding property's equipped list. -/
-  structure T {types : List Type} (properties : HList.T Item.Property types) where
+  structure T {types : List Type} (actualProperties : HList.T Item.Property types) where
     name : String
-    expected : HList.T ExpectedForSigma (propsToSigmaList properties)
+    expectedProperties : HList.T ExpectedForSigma (propsToSigmaList actualProperties)
 end Expedition
