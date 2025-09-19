@@ -1,4 +1,5 @@
 import ProvablyPacked.User.Domain
+import ProvablyPacked.Lib.HList
 
 /-!
 # Item
@@ -13,10 +14,14 @@ namespace Item
     values : List α
     deriving DecidableEq, Repr
 
-  structure T where
+  structure T (types : List Type) where
     name : String
-    /-- Variadic list of properties - each property can hold any inductive type
-        These represent the contexts in which this item is ok to use
-        (the contexts in which the item is equippable for) -/
-    properties : List (Σ α : Type, Property α)
+    /-- Heterogeneous list of properties indexed by the type list -/
+    properties : HList.T Property types
+
+  /- Get a property from a T by type index -/
+  -- def getValuesByType {types : List Type} (item : T types) {α : Type} (idx : α ∈ types) : Property α :=
+  --   item.properties.get idx
+
+
 end Item

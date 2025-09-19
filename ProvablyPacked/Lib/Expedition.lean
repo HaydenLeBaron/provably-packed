@@ -8,6 +8,9 @@ import ProvablyPacked.User.Domain
 Defines expeditions with variadic constraint dimensions and expected item lists.
 An expedition represents a trip with specific constraint requirements (like weather conditions)
 and lists of expected items needed for those constraints.
+
+TODO: I could probably name this to be abstract (type-level list comparator). An Expedition is a type Comparator
+that takes a list of dims in the universe of trip constaints and a a list of expected conditions (dims)
 -/
 
 namespace Expedition
@@ -24,5 +27,5 @@ namespace Expedition
   /-- A `T` can be instantiated with any number of constraint dimensions. -/
   structure T (dims : List Dim) where
     name : String
-    expected : HList ExpectedFor dims
+    expected : HList.T ExpectedFor dims
 end Expedition

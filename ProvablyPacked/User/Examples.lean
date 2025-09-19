@@ -10,22 +10,22 @@ namespace Instantiated
     namespace ATripWithGearExample
       open Bugginess.T Precipitation.T
 
-      def bugproofShirt : Item.T :=
+      def bugproofShirt : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Bugproof Shirt"
       , properties :=
-          [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }⟩
-          , ⟨Precipitation.T, { values := [Precipitation.T.NoPrecip] }⟩
-          , ⟨Fashion.T, { values := [Fashion.T.Casual] }⟩
-          ]
+              { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }
+          ::: { values := [Precipitation.T.NoPrecip] }
+          ::: { values := [Fashion.T.Casual] }
+          ::: HNil
       }
 
-      def clammyWaterproofJacket : Item.T :=
+      def clammyWaterproofJacket : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Clammy Waterproof Jacket"
       , properties :=
-          [ ⟨Bugginess.T, { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }⟩
-          , ⟨Precipitation.T, { values := [Precipitation.T.YesPrecip] }⟩ -- You wouldn't want to wear this with no precipitation
-          , ⟨Fashion.T, { values := [Fashion.T.Formal] }⟩
-          ]
+              { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }
+          ::: { values := [Precipitation.T.YesPrecip] } -- You wouldn't want to wear this with no precipitation
+          ::: { values := [Fashion.T.Formal] }
+          ::: HNil
       }
 
       -- FIXME: This isn't really unioning gear attributes, it's just listing all the values
