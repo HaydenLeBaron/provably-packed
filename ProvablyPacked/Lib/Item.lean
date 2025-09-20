@@ -32,6 +32,18 @@ namespace Item
     | .nil, .nil => .nil
     | .cons p₁ t₁, .cons p₂ t₂ => .cons (Property.union p₁ p₂) (unionProperties t₁ t₂)
 
+  /-- The identity element for `unionProperties` at a given `types` shape:
+      an `HList` of `Property`s whose `values` are all empty lists. -/
+  def emptyProperties : (types : List Type) → HList.T Property types
+  | [] => .nil
+  | _ :: ts => .cons { values := [] } (emptyProperties ts)
+
+  def unionPropertiesList {types : List Type}
+      (xs : List (HList.T Property types)) : HList.T Property types :=
+    match xs with
+    | x :: xs => unionProperties x (unionPropertiesList xs)
+    | [] => emptyProperties types
+
   /- Get a property from a T by type index -/
   -- def getValuesByType {types : List Type} (item : T types) {α : Type} (idx : α ∈ types) : Property α :=
   --   item.properties.get idx
