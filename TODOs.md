@@ -1,4 +1,3 @@
-- [ ] Do compile-time mass assertion in an Expedition.T
 - [ ] Write type-level "tests" in Examples.lean in this spirit:
     ```lean
 

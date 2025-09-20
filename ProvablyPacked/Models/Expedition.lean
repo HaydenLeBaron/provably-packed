@@ -15,6 +15,6 @@ namespace Expedition
   where
     name : String
     actualMassG : Int := actualItems.massG
-    expectedMassG : Int
-    massBound : actualMassG <= expectedMassG
+    maxExpectedMassG : Int
+    massBound : actualMassG <= maxExpectedMassG
 end Expedition

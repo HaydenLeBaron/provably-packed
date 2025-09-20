@@ -53,8 +53,16 @@ namespace Instantiated
           ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
           ::: HNil
         , actualMassG := unionedEverything.massG
-        , expectedMassG := 1000000
-        , massBound := by sorry
+        , maxExpectedMassG := 57 -- If this was any lower it would fail to typecheck
+        , massBound := by
+            simp [ unionedEverything,
+                  ItemColl.unionList,
+                  ItemColl.union,
+                  ItemColl.empty,
+                  bugproofShirt,
+                  clammyWaterproofJacket,
+                  spork
+                  ];
       }
 
     end ATripWithGearExample
