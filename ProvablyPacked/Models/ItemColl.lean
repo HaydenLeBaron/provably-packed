@@ -1,7 +1,11 @@
 import ProvablyPacked.Lib.HList
 import ProvablyPacked.Lib.PropertyHList
 
+-- TODO: I could make an ItemColl.T a monoid
 namespace ItemColl
+
+  /-- Mass in grams (negative mass intentionally allowed for hacky use-cases) --/
+  abbrev Gram := Int
 
   /-
     A T is a representation of an item collection.
@@ -10,8 +14,7 @@ namespace ItemColl
   structure T
     (types : List Type) where
     name : String
-    -- Mass in grams (negative mass intentionally allowed for hacky use-cases)
-    massG: Float
+    massG: Gram
     properties : PropertyHList.T types
 
 
@@ -33,9 +36,52 @@ namespace ItemColl
     def unionList {types : List Type} (name : String) (items : List (T types)) : T types :=
       items.foldl (union name) (empty)
 
-  end ItemColl
 
 
-/-
-TODO: I could make this a monoid
--/
+    -- theorem empty_items_mass_eq_0 :
+    --   (fun l : T => List.sum
+    --     (l.items.map (fun item => item.mass)))
+    --     ItemColl.empty = 0 := by
+    --   simp [empty]
+
+
+    namespace Lemmas
+      def assertTotalMassIsLessThanOrEqual {types : List Type}
+      (itemColl : T types)
+      (mass : Gram) : Prop :=
+        itemColl.massG <= mass
+    end Lemmas
+
+
+    -- -- Simple predicate call theorem
+    -- theorem one_gram_items_mass_le_1 : Lemmas.assertTotalMassIsLessThanOrEqual oneGramLoadout 1 := by
+    --   simp [Lemmas.assertTotalMassIsLessThanOrEqual]
+    --   decide
+
+end ItemColl
+
+namespace Examples
+  def empty : ItemColl.T [] := ItemColl.empty
+
+  def oneGramItemColl : ItemColl.T [] :=
+    { name := "graham cracker"
+    , massG := 1
+    , properties := PropertyHList.emptyProperties [] }
+
+  def twoGramItemColl : ItemColl.T [] :=
+    { name := "double graham cracker"
+    , massG := 2
+    , properties := PropertyHList.emptyProperties [] }
+
+  def threeGramItemColl : ItemColl.T [] :=
+    { name := "s'more"
+    , massG := 3
+    , properties := PropertyHList.emptyProperties [] }
+
+  theorem one_gram_loadout_mass_le_1 :
+  ItemColl.Lemmas.assertTotalMassIsLessThanOrEqual oneGramItemColl 1 := by
+    simp [ItemColl.Lemmas.assertTotalMassIsLessThanOrEqual]
+    decide
+
+
+end Examples

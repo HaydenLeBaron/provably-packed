@@ -35,7 +35,9 @@ def heavyLoadout : Loadout.T := {
 
 -- Simple inline theorem
 theorem empty_loadout_mass_eq_0 :
-  (fun l : Loadout.T => List.sum (l.items.map (fun item => item.mass))) emptyLoadout = 0 := by
+  (fun l : Loadout.T => List.sum
+    (l.items.map (fun item => item.mass)))
+    emptyLoadout = 0 := by
   simp [emptyLoadout]
 
 @[simp]

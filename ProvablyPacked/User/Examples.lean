@@ -13,7 +13,7 @@ namespace Instantiated
 
       def bugproofShirt : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "BugProof Shirt"
-      , massG := 42.0
+      , massG := 42
       , properties :=
               { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }
           ::: { values := [Precipitation.T.NoPrecip] }
@@ -23,7 +23,7 @@ namespace Instantiated
 
       def clammyWaterproofJacket : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Clammy Waterproof Jacket"
-      , massG := 12.0
+      , massG := 12
       , properties :=
               { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }
           ::: { values := [Precipitation.T.YesPrecip] } -- You wouldn't want to wear this with no precipitation
@@ -33,7 +33,7 @@ namespace Instantiated
 
       def spork : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Spork (No properties)"
-      , massG := 3.0
+      , massG := 3
       , properties :=
               { values := [] }
           ::: { values := [] }
