@@ -42,6 +42,8 @@ end PropertiesHListComparator
 
 namespace Examples
 
+-- TODO: write examples like in HList.lean
+
 
 
 end Examples
