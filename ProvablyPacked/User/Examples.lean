@@ -13,6 +13,7 @@ namespace Instantiated
 
       def bugproofShirt : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "BugProof Shirt"
+      , massG := 42.0
       , properties :=
               { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }
           ::: { values := [Precipitation.T.NoPrecip] }
@@ -22,6 +23,7 @@ namespace Instantiated
 
       def clammyWaterproofJacket : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Clammy Waterproof Jacket"
+      , massG := 12.0
       , properties :=
               { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs] }
           ::: { values := [Precipitation.T.YesPrecip] } -- You wouldn't want to wear this with no precipitation
@@ -31,6 +33,7 @@ namespace Instantiated
 
       def spork : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Spork (No properties)"
+      , massG := 3.0
       , properties :=
           { values := [] }
           ::: { values := [] }
@@ -41,11 +44,13 @@ namespace Instantiated
       /-- Example: union the properties of two propertyHLists pointwise across dimensions. -/
       def unionedShirtAndJacket : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Unioned Bugproof + Clammy Waterproof"
+      , massG := bugproofShirt.massG + clammyWaterproofJacket.massG
       , properties := PropertyHList.unionProperties bugproofShirt.properties clammyWaterproofJacket.properties
       }
 
       def unionedEverything : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Unioned Everything"
+      , massG := bugproofShirt.massG + clammyWaterproofJacket.massG + spork.massG
       , properties := PropertyHList.unionPropertiesList [bugproofShirt.properties, clammyWaterproofJacket.properties, spork.properties] }
 
     def myNewTrip : Expedition.T unionedEverything.properties

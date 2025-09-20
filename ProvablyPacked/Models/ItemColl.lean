@@ -13,7 +13,14 @@ namespace ItemColl
   --(massG : Nat)
   (types : List Type) where
     name : String
+    -- Mass in grams (negative mass intentionally allowed for hacky use-cases)
+    massG: Float
     properties : PropertyHList.T types
 
 
 end ItemColl
+
+
+/-
+TODO: I could make this a monoid
+-/
