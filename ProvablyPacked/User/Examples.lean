@@ -47,11 +47,14 @@ namespace Instantiated
     def myNewTrip : Expedition.T unionedEverything
     :=
       { name := "A Variadic Trip with Gear"
-      , expectedProperties :=
-            [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
-        ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
-        ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
-        ::: HNil
+        , expectedProperties :=
+              [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
+          ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
+          ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
+          ::: HNil
+        , actualMassG := unionedEverything.massG
+        , expectedMassG := 1000000
+        , massBound := by sorry
       }
 
     end ATripWithGearExample

@@ -14,4 +14,7 @@ namespace Expedition
   extends PropertiesHListComparator.T actualItems.properties
   where
     name : String
+    actualMassG : Int := actualItems.massG
+    expectedMassG : Int
+    massBound : actualMassG <= expectedMassG
 end Expedition
