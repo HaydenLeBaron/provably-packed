@@ -1,6 +1,7 @@
 import ProvablyPacked.Lib.Narrow
-import ProvablyPacked.Lib.Expedition
-import ProvablyPacked.Lib.Item
+import ProvablyPacked.Lib.PropertiesHListComparator
+import ProvablyPacked.Models.Expedition
+import ProvablyPacked.Models.Item
 import ProvablyPacked.User.Domain
 
 /-! MODEL INSTANTIATION (TYPE CHECKING DEMO) ----------------- -/
@@ -11,7 +12,7 @@ namespace Instantiated
       open Bugginess.T Precipitation.T
 
       def bugproofShirt : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
-      { name := "Bugproof Shirt"
+      { name := "BugProof Shirt"
       , properties :=
               { values := [Bugginess.T.NoBugs, Bugginess.T.LightBugs, Bugginess.T.HeavyBugs] }
           ::: { values := [Precipitation.T.NoPrecip] }
@@ -37,18 +38,20 @@ namespace Instantiated
           ::: HNil
       }
 
-      /-- Example: union the properties of two items pointwise across dimensions. -/
+      /-- Example: union the properties of two propertyHLists pointwise across dimensions. -/
       def unionedShirtAndJacket : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Unioned Bugproof + Clammy Waterproof"
-      , properties := Item.unionProperties bugproofShirt.properties clammyWaterproofJacket.properties
+      , properties := PropertyHList.unionProperties bugproofShirt.properties clammyWaterproofJacket.properties
       }
 
       def unionedEverything : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Unioned Everything"
-      , properties := Item.unionPropertiesList [bugproofShirt.properties, clammyWaterproofJacket.properties, spork.properties] }
+      , properties := PropertyHList.unionPropertiesList [bugproofShirt.properties, clammyWaterproofJacket.properties, spork.properties] }
 
-    def myNewTrip : Expedition.T unionedEverything.properties :=
+    def myNewTrip : Expedition.T unionedEverything.properties
+    :=
       { name := "A Variadic Trip with Gear"
+      --, actualProperties := unionedEverything.properties
       , expectedProperties :=
           [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
         ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]

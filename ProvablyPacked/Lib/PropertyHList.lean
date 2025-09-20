@@ -1,23 +1,19 @@
-import ProvablyPacked.User.Domain
 import ProvablyPacked.Lib.HList
 
 /-!
-# Item
+# PropertyHList
 
-Defines the structure for items that can be packed in expeditions.
-Each item has context requirements specifying the conditions under which it can be used.
+Defines the structure for propertyHLists that can be packed in expeditions.
+Each propertyHList has context requirements specifying the conditions under which it can be used.
 -/
 
-namespace Item
+namespace PropertyHList
   /-- A generic property that can hold a list of values of any type -/
   structure Property (α : Type) where
     values : List α
     deriving DecidableEq, Repr
 
-  structure T (types : List Type) where
-    name : String
-    /-- Heterogeneous list of properties indexed by the type list -/
-    properties : HList.T Property types
+  abbrev T (types : List Type) := HList.T Property types
 
   open HList
 
@@ -45,8 +41,8 @@ namespace Item
     | [] => emptyProperties types
 
   /- Get a property from a T by type index -/
-  -- def getValuesByType {types : List Type} (item : T types) {α : Type} (idx : α ∈ types) : Property α :=
-  --   item.properties.get idx
+  -- def getValuesByType {types : List Type} (propertyHList : T types) {α : Type} (idx : α ∈ types) : Property α :=
+  --   propertyHList.properties.get idx
 
 
-end Item
+end PropertyHList

@@ -17,7 +17,7 @@ you are prepared or unprepared for the trip
 
 ```reasonml
 
-module Expedition {
+module PropertiesHListComparator {
     type t = {
         name: string,
         durationDays: int,

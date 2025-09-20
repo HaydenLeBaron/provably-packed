@@ -5,27 +5,11 @@ Provides type-level narrowing of sum types by restricting variants to specific s
 This module enables creating types that only accept certain constructors from a parent sum type.
 -/
 
-set_option diagnostics true
-
-/-! LIBRARY ----------------- -/
 namespace Narrow
     /--
     Implements "narrowed sum types" by providing a type-level representation of subsets of sum types and utils.
 
     A `T` is a sum type whose set of `variants` form a subset of the variants of`α` .
-
-    e.g.
-    ```lean
-    inductive MyBoolT where | MyFalse | MyTrue
-    def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
-    -- Next line typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT`
-    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
-    -- Next line fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT`
-    def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
-    inductive OtherT where | Other
-    -- Next line fails to typecheck because `OtherT.Other` is not a member of `MyBoolT`
-    def MyBoolAndMore := Narrow.T MyBoolT [MyBoolT.MyTrue, MyBoolT.MyFalse, OtherT.Other]
-    ```
   -/
   inductive T (α : Type) (variants : List α) : Type where
     | mk (a : α) (h : a ∈ variants) : T α variants
@@ -37,3 +21,23 @@ namespace Narrow
   macro_rules
     | `(tactic| narrowTac) => `(tactic| first | decide | simp)
 end Narrow
+
+
+namespace Examples
+
+    inductive MyBoolT where | MyFalse | MyTrue
+    def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
+
+    /- Typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT` -/
+    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
+
+    /- Fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT`-/
+    --  def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
+
+
+    inductive OtherT where | Other
+
+    /- Next line failsto typecheck because `OtherT.Other` is not a member of `MyBoolT` -/
+    -- def MyBoolAndMore := Narrow.T MyBoolT [MyBoolT.MyTrue, MyBoolT.MyFalse, OtherT.Other]
+
+end Examples
