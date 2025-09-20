@@ -44,7 +44,7 @@ namespace Instantiated
       def unionedEverything : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T]
       := ItemColl.unionList "Unioned Everything" [bugproofShirt, clammyWaterproofJacket, spork]
 
-    def myNewTrip : Expedition.T unionedEverything.properties
+    def myNewTrip : Expedition.T unionedEverything
     :=
       { name := "A Variadic Trip with Gear"
       , expectedProperties :=
