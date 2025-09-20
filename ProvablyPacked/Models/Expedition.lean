@@ -14,4 +14,6 @@ namespace Expedition
   where
     name : String
 
+  -- TODO: add a type
+
 end Expedition

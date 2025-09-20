@@ -1,8 +1,4 @@
-
-- [ ] Clean up code and comments
-- [ ] Rename Item.T to Properties.T. Trivially implement an Item.T as a Properties.T with a name, description, mass.
-- [ ] Rename Expedition.T to PropertiesComparator.T. Trivially implement Expedition.T as a PropertiesComparator.T with a name, description, mass.
-
+- [ ] Do compile-time mass assertion in an Expedition.T
 - [ ] Write type-level "tests" in Examples.lean in this spirit:
     ```lean
 

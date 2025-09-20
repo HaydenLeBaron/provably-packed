@@ -35,30 +35,20 @@ namespace Instantiated
       { name := "Spork (No properties)"
       , massG := 3.0
       , properties :=
-          { values := [] }
+              { values := [] }
           ::: { values := [] }
           ::: { values := [] }
           ::: HNil
       }
 
-      /-- Example: union the properties of two propertyHLists pointwise across dimensions. -/
-      def unionedShirtAndJacket : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
-      { name := "Unioned Bugproof + Clammy Waterproof"
-      , massG := bugproofShirt.massG + clammyWaterproofJacket.massG
-      , properties := PropertyHList.unionProperties bugproofShirt.properties clammyWaterproofJacket.properties
-      }
-
-      def unionedEverything : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
-      { name := "Unioned Everything"
-      , massG := bugproofShirt.massG + clammyWaterproofJacket.massG + spork.massG
-      , properties := PropertyHList.unionPropertiesList [bugproofShirt.properties, clammyWaterproofJacket.properties, spork.properties] }
+      def unionedEverything : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T]
+      := ItemColl.unionList "Unioned Everything" [bugproofShirt, clammyWaterproofJacket, spork]
 
     def myNewTrip : Expedition.T unionedEverything.properties
     :=
       { name := "A Variadic Trip with Gear"
-      --, actualProperties := unionedEverything.properties
       , expectedProperties :=
-          [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
+            [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
         ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
         ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
         ::: HNil
