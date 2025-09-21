@@ -26,7 +26,7 @@ Lean then checks—at compile time—that your gear can satisfy every expected c
 Thanks to the [Curry-Howard Isomorphism](https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence), types can encode proofs. Constructing an `Expedition.T` constitutes a proof that your packing list meets its spec.
 
 - `ProvablyPacked/Lib/HList.lean` provides `HList.T`, a heterogeneous list indexed by types, used to hold per-dimension properties.
-- `ProvablyPacked/Lib/Narrow.lean` provides `Narrow.T α variants`, a type that only accepts a specified subset of a sum type’s constructors, plus a small tactic `narrowTac` to discharge subset proofs.
+- `ProvablyPacked/Lib/Narrow.lean` provides `Narrow.T α variants`, a type that only accepts a specified subset of a sum type’s constructors, plus a small tactic `nrrw` to discharge subset proofs.
 - `ProvablyPacked/Lib/PropertyHList.lean` defines a generic `Property α` with a list of equipped values and operations to union properties across items.
 - `ProvablyPacked/Lib/PropertiesHListComparator.lean` defines a comparator where expectations are typed against the gear’s actual properties:
   - `propsToSigmaList` turns an `HList` of properties into a value-level index.
@@ -57,12 +57,12 @@ Then open `ProvablyPacked/User/Example/ExampleScratchpad1.lean` in your editor (
 
 - Item definitions with property lists per dimension (e.g., which `Bugginess.T` and `Precipitation.T` variants each item can handle).
 - The unioned gear properties and total mass via `Item.unionList`.
-- An `Expedition.T` that specifies `expectedProperties` per dimension using `Narrow.T … (by narrowTac)` and a `maxExpectedMassG` with a proof `has_valid_mass`.
+- An `Expedition.T` that specifies `expectedProperties` per dimension using `Narrow.T … (by nrrw)` and a `maxExpectedMassG` with a proof `has_valid_mass`.
 
 Try changing things and see the type checker help you:
 
 - lower `maxExpectedMassG` to a value less than `actualMassG` → the `has_valid_mass` proof won’t compile,
-- expect a value your gear doesn’t support → `narrowTac` can’t find a proof and the file won’t typecheck.
+- expect a value your gear doesn’t support → `nrrw` can’t find a proof and the file won’t typecheck.
 
 ## Customize your own system
 

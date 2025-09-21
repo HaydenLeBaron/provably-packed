@@ -2,68 +2,83 @@
 
 [Josh Bukoski's Site](https://www.joshbukoski.com/)
 
+
+A NOTE: Josh Bukoski's system is a clothing-oriented system, not a conditions-oriented system. In other words, the he defines starts with a list of gear and specifies the ideal
+properties for each piece of gear, instead of starting with a list of conditions and specifying the ideal gear for each condition. This example demonstrates an inverted
+way of using provably packed.
+
 ## Clothing System
 
 Notes From his [excellent video](https://www.youtube.com/watch?v=0xKCqQSMjvE) about his ultralight 3 season clothing system.
 I highly recommend you watch if you are into optimizing your gear for backpacking trips.
 
+
+### Shared properties
+- Insulating
+- WindResistance
+- Ventable
+- Breathable
+- QuickDrying
+- MosquitoProof
+- Durable
+- SunProof
+- Waterproof
+
 ### CORE:
   - **Shirt**`
     - Interface
-        - Insulating
-        - Wind Resistant
-        - Ventable
-        - Breathable
-        - Quick-Drying
-        - Mosquito-Proof
-        - Durable
-        - Sun-Proof
+        - Insulating (Shared)
+        - Wind Resistant (Shared)
+        - Ventable (Shared)
+        - Breathable (Shared)
+        - Quick-Drying (Shared)
+        - Mosquito-Proof (Shared)
+        - Durable (Shared)
+        - Sun-Proof (Shared)
     - Implementation: 
         - Hooded shirt
   - **Pants**
     - Interface
-        - Insulating
-        - Wind Resistant
-        - Ventable (Nice to have)
-        - Breathable
-        - Quick-Drying
-        - Mosquito-Proof
-        - Durable (High)
-        - Sun-Proof*Pants**
+        - Insulating (Shared)
+        - Wind Resistant (Shared)
+        - Ventable (Shared)
+        - Breathable (Shared)
+        - Quick-Drying (Shared)
+        - Mosquito-Proof (Shared)
+        - Durable (Shared)
+        - Sun-Proof (Shared)
     - Implementation: 
         - Ex Officio Sandfly pants
   - **Fleece (Active Insulating Layer)**
     - Interface
-        - Insulating
-        - Quick-Drying
-        - Breathable
-        - Hydrophobic
-        - AiryAndLofty
+        - Insulating (Shared)
+        - Quick-Drying (Shared)
+        - Breathable (Shared)
+        - Hydrophobic (Unique)
+        - AiryAndLofty (Unique)
     - Implementation: 
         - Polartech Alpha Direct Fleece | Gatewood Cape Poncho Shelter
   - **Shell Jacket** `UpperShell`
     - Interface
-        - Insulating (trap air)
-        - Ventable
-        - Weatherproof
-            - Waterproof
-            - Windproof
+        - Insulating (trap air) (Shared)
+        - Ventable (Shared)
+        - Waterproof 
+        - Windproof (Shared)
         - Oversized
     - Implementation:
         - Frogg Toggs Ultra-Lite2 | 
   - **Shell Pants** `LegsShell`
     - Interface
         - Insulating (trap air)
-        - Ventable
-        - Waterproof-Breathable
-        - Windproof
-        - Oversized
-        - Loose-fitting
+        - Ventable (Shared)
+        - Waterproof-Breathable (Shared)
+        - Windproof (Shared)
+        - Oversized (Unique)
+        - Loose-fitting (Unique)
   - **Hat**
     - Interface:
-        - Quick-Drying
-        - Sun-Protection
-        - Fashion
+        - Quick-Drying (Shared)
+        - Sun-Protection (Shared)
   - **Socks**
   - **Trail Runners**
 ### AUX:

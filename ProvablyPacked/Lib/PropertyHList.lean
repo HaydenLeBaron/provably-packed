@@ -17,6 +17,8 @@ namespace PropertyHList
 
   open HList
 
+  def PHNil : Property α := { values := [] }
+
   /-- Union two `Property` values by concatenating lists. Note: does not deduplicate. -/
   def Property.union {α : Type} (p₁ p₂ : Property α) : Property α :=
     { values := p₁.values ++ p₂.values }

@@ -47,9 +47,9 @@ namespace ATripWithGearExample
     :=
     { name := "A Variadic Trip with Gear"
     , expectedProperties :=
-          [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
-      ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
-      ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
+          [ Narrow.T.mk Bugginess.T.LightBugs (by nrrw), Narrow.T.mk Bugginess.T.HeavyBugs (by nrrw) ]
+      ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by nrrw) ]
+      ::: [ Narrow.T.mk Fashion.T.Casual (by nrrw), Narrow.T.mk Fashion.T.Formal (by nrrw) ]
       ::: HNil
     , maxExpectedMassG := 57 -- If this was any lower it would fail to typecheck
     , has_valid_mass := by

@@ -12,9 +12,9 @@ namespace Narrow
     inductive MyBoolT where | MyFalse | MyTrue
     def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
     -- Next line typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT`
-    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
+    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by nrrw)
     -- Next line fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT`
-    def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
+    def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by nrrw)
     inductive OtherT where | Other
     -- Next line fails to typecheck because `OtherT.Other` is not a member of `MyBoolT`
     def MyBoolAndMore := Narrow.T MyBoolT [MyBoolT.MyTrue, MyBoolT.MyFalse, OtherT.Other]
@@ -26,9 +26,9 @@ namespace Narrow
   open T
 
   /-- Tactic to prove that a variant of a sum type α is a member of a "narrowed" type T α subset -/
-  syntax (name := narrowTac) "narrowTac" : tactic
+  syntax (name := nrrw) "nrrw" : tactic
   macro_rules
-    | `(tactic| narrowTac) => `(tactic| first | decide | simp)
+    | `(tactic| nrrw) => `(tactic| first | decide | simp)
 end Narrow
 
 
@@ -117,14 +117,14 @@ namespace Instantiated
     -- Here you specify the satisfaction of the interface
   { name := "May 2026 Camping Trip"
     , expectedBugginess :=
-    [ .mk Bugginess.T.NoBugs    (by narrowTac)
-    , .mk Bugginess.T.LightBugs (by narrowTac)
-    --, .mk FIXME_IMPLICIT_PARAM (by narrowTac)
-    -- , .mk Bugginess.T.HeavyBugs (by narrowTac) -- type error (good)
+    [ .mk Bugginess.T.NoBugs    (by nrrw)
+    , .mk Bugginess.T.LightBugs (by nrrw)
+    --, .mk FIXME_IMPLICIT_PARAM (by nrrw)
+    -- , .mk Bugginess.T.HeavyBugs (by nrrw) -- type error (good)
     ]
     , expectedPrecipitation :=
-    [ .mk Precipitation.T.NoPrecip (by narrowTac)
-    , .mk Precipitation.T.YesPrecip (by narrowTac)
+    [ .mk Precipitation.T.NoPrecip (by nrrw)
+    , .mk Precipitation.T.YesPrecip (by nrrw)
       ]
     }
 
@@ -133,8 +133,8 @@ namespace Instantiated
       Expedition.T [Bugginess.T.LightBugs] [Precipitation.T.YesPrecip] :=
     {
       name := "Another Trip"
-      expectedBugginess     := [ .mk Bugginess.T.LightBugs (by narrowTac) ]
-    , expectedPrecipitation := [ .mk Precipitation.T.YesPrecip (by narrowTac) ]
+      expectedBugginess     := [ .mk Bugginess.T.LightBugs (by nrrw) ]
+    , expectedPrecipitation := [ .mk Precipitation.T.YesPrecip (by nrrw) ]
     }
 
     namespace ATripWithGearExample
@@ -167,8 +167,8 @@ namespace Instantiated
         (equippedPrecip := unionedGearAttributes.okPrecipitation) :=
       {
         name := "A Trip with Gear"
-      , expectedBugginess     := [ .mk Bugginess.T.LightBugs (by narrowTac) ]
-      , expectedPrecipitation := [ .mk Precipitation.T.YesPrecip (by narrowTac) ]
+      , expectedBugginess     := [ .mk Bugginess.T.LightBugs (by nrrw) ]
+      , expectedPrecipitation := [ .mk Precipitation.T.YesPrecip (by nrrw) ]
       }
 
       open VariadicExpedition
@@ -183,9 +183,9 @@ namespace Instantiated
       def variadicTrip : VariadicExpedition.T variadicDims :=
       { name := "A Variadic Trip with Gear"
       , expected :=
-          [ .mk Bugginess.T.LightBugs (by narrowTac), .mk Bugginess.T.HeavyBugs (by narrowTac) ]
-        ::: [ .mk Precipitation.T.YesPrecip (by narrowTac) ]
-        ::: [ .mk Fashion.T.Casual (by narrowTac), .mk Fashion.T.Formal (by narrowTac) ]
+          [ .mk Bugginess.T.LightBugs (by nrrw), .mk Bugginess.T.HeavyBugs (by nrrw) ]
+        ::: [ .mk Precipitation.T.YesPrecip (by nrrw) ]
+        ::: [ .mk Fashion.T.Casual (by nrrw), .mk Fashion.T.Formal (by nrrw) ]
         ::: HNil
       }
 

@@ -14,9 +14,9 @@ namespace Narrow
   open T
 
   /-- Tactic to prove that a variant of a sum type α is a member of a "narrowed" type T α subset -/
-  syntax (name := narrowTac) "narrowTac" : tactic
+  syntax (name := nrrw) "nrrw" : tactic
   macro_rules
-    | `(tactic| narrowTac) => `(tactic| first | decide | simp)
+    | `(tactic| nrrw) => `(tactic| first | decide | simp)
 end Narrow
 
 
@@ -26,10 +26,10 @@ namespace Examples
     private def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
 
     /-- Typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT` -/
-    private def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
+    private def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by nrrw)
 
     /-- Fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT` -/
-    --  def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
+    --  def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by nrrw)
 
 
     private inductive OtherT where | Other
