@@ -1,6 +1,11 @@
 import ProvablyPacked.Lib.PropertiesHListComparator
 import ProvablyPacked.Models.Item
 
+/-
+TODO: add a temperature range (C) patterned after maxExpectedMassG and has_valid_mass
+to encode temperature ranges for an Expedition/(ItemModuleI)
+-/
+
 namespace Expedition
 
   /-- A `T` is a correct-by-construction representation of a trip (e.g. a thru-hike),
