@@ -60,6 +60,14 @@
   | Yes (b : Body) | No (b : Body)
   deriving DecidableEq, Repr
 
+  inductive Dexterous (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive AntiBlister (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
   /-- Style is intentionally not parameterized by body
       because I am convinced that it takes only one
       article of clothing to make a whole outfit.
