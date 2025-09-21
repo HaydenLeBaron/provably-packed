@@ -1,19 +1,20 @@
 import ProvablyPacked.Lib.HList
 import ProvablyPacked.Lib.PropertyHList
 
--- TODO: I could make an ItemColl.T a monoid
-namespace ItemColl
+-- TODO: I could make an Item.T a monoid
+namespace Item
 
   /-- Mass in grams (negative mass intentionally allowed for hacky use-cases) --/
   abbrev Gram := Int
 
   /-
-    A T is a representation of an item collection.
-    e.g. it can represent an item or a combination of items (who have been unioned together)
+    A T is a representation of an item.
+
+    Items can be unioned together to form an item with the combined properties of the items.
   -/
   structure T
     (types : List Type) where
-    name : String
+    name : Option String
     massG: Gram
     properties : PropertyHList.T types
 
@@ -26,14 +27,14 @@ namespace ItemColl
       massG := 0
       properties := PropertyHList.emptyProperties types
 
-    /-- `union` two `ItemColl`s by summing their masses and unioning their properties. -/
-    def union {types : List Type} (name : String) (i₁ i₂ : T types) : T types where
+    /-- `union` two `Item`s by summing their masses and unioning their properties. -/
+    def union {types : List Type} (name : Option String) (i₁ i₂ : T types) : T types where
       name := name
       massG := i₁.massG + i₂.massG
       properties := PropertyHList.unionProperties i₁.properties i₂.properties
 
-    /-- `union` a list of `ItemColl`s. -/
-    def unionList {types : List Type} (name : String) (items : List (T types)) : T types :=
+    /-- `union` a list of `Item`s. -/
+    def unionList {types : List Type} (name : Option String) (items : List (T types)) : T types :=
       items.foldl (union name) (empty)
 
 
@@ -41,15 +42,15 @@ namespace ItemColl
     -- theorem empty_items_mass_eq_0 :
     --   (fun l : T => List.sum
     --     (l.items.map (fun item => item.mass)))
-    --     ItemColl.empty = 0 := by
+    --     Item.empty = 0 := by
     --   simp [empty]
 
 
     namespace Lemmas
       def assertTotalMassIsLessThanOrEqual {types : List Type}
-      (itemColl : T types)
+      (item : T types)
       (mass : Gram) : Prop :=
-        itemColl.massG <= mass
+        item.massG <= mass
     end Lemmas
 
 
@@ -58,29 +59,29 @@ namespace ItemColl
     --   simp [Lemmas.assertTotalMassIsLessThanOrEqual]
     --   decide
 
-end ItemColl
+end Item
 
 namespace Examples
-  def empty : ItemColl.T [] := ItemColl.empty
+  def empty : Item.T [] := Item.empty
 
-  def oneGramItemColl : ItemColl.T [] :=
+  def oneGramItem : Item.T [] :=
     { name := "graham cracker"
     , massG := 1
     , properties := PropertyHList.emptyProperties [] }
 
-  def twoGramItemColl : ItemColl.T [] :=
+  def twoGramItem : Item.T [] :=
     { name := "double graham cracker"
     , massG := 2
     , properties := PropertyHList.emptyProperties [] }
 
-  def threeGramItemColl : ItemColl.T [] :=
+  def threeGramItem : Item.T [] :=
     { name := "s'more"
     , massG := 3
     , properties := PropertyHList.emptyProperties [] }
 
   theorem one_gram_loadout_mass_le_1 :
-  ItemColl.Lemmas.assertTotalMassIsLessThanOrEqual oneGramItemColl 1 := by
-    simp [ItemColl.Lemmas.assertTotalMassIsLessThanOrEqual]
+  Item.Lemmas.assertTotalMassIsLessThanOrEqual oneGramItem 1 := by
+    simp [Item.Lemmas.assertTotalMassIsLessThanOrEqual]
     decide
 
 

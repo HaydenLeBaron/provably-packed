@@ -1,4 +1,7 @@
-/-!  DOMAIN MODELING ----------------- -/
+/-
+This is a user editable file where you can define the relevant properties of your expeditions/items.
+-/
+
 namespace Precipitation
   inductive T where
     | NoPrecip | YesPrecip

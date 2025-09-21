@@ -1,5 +1,5 @@
 import ProvablyPacked.Lib.PropertiesHListComparator
-import ProvablyPacked.Models.ItemColl
+import ProvablyPacked.Models.Item
 
 namespace Expedition
 
@@ -10,11 +10,11 @@ namespace Expedition
       with
         an HList of list of expected properties (e.g. what kinds of conditions do you expect to face)
   -/
-  structure T {types : List Type}  (actualItems : ItemColl.T types)
-  extends PropertiesHListComparator.T actualItems.properties
+  structure T {types : List Type}  (actualItems : List (Item.T types))
+  extends PropertiesHListComparator.T (Item.unionList none actualItems).properties
   where
     name : String
-    actualMassG : Int := actualItems.massG
+    actualMassG : Int := (Item.unionList none actualItems).massG
     maxExpectedMassG : Int
     massBound : actualMassG <= maxExpectedMassG
 end Expedition

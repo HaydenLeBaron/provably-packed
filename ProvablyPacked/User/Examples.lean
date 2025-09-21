@@ -1,7 +1,7 @@
 import ProvablyPacked.Lib.Narrow
 import ProvablyPacked.Lib.PropertiesHListComparator
 import ProvablyPacked.Models.Expedition
-import ProvablyPacked.Models.ItemColl
+import ProvablyPacked.Models.Item
 import ProvablyPacked.User.Domain
 
 /-! MODEL INSTANTIATION (TYPE CHECKING DEMO) ----------------- -/
@@ -11,7 +11,7 @@ namespace Instantiated
     namespace ATripWithGearExample
       open Bugginess.T Precipitation.T
 
-      def bugproofShirt : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
+      def bugproofShirt : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "BugProof Shirt"
       , massG := 42
       , properties :=
@@ -21,7 +21,7 @@ namespace Instantiated
           ::: HNil
       }
 
-      def clammyWaterproofJacket : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
+      def clammyWaterproofJacket : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Clammy Waterproof Jacket"
       , massG := 12
       , properties :=
@@ -31,7 +31,7 @@ namespace Instantiated
           ::: HNil
       }
 
-      def spork : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T] :=
+      def spork : Item.T [Bugginess.T, Precipitation.T, Fashion.T] :=
       { name := "Spork (No properties)"
       , massG := 3
       , properties :=
@@ -41,24 +41,24 @@ namespace Instantiated
           ::: HNil
       }
 
-      def unionedEverything : ItemColl.T [Bugginess.T, Precipitation.T, Fashion.T]
-      := ItemColl.unionList "Unioned Everything" [bugproofShirt, clammyWaterproofJacket, spork]
+    def gearList : List (Item.T [Bugginess.T, Precipitation.T, Fashion.T])
+      := [bugproofShirt, clammyWaterproofJacket, spork]
 
-    def myNewTrip : Expedition.T unionedEverything
-    :=
+    def myNewTrip : Expedition.T
+      (actualItems := gearList)
+      :=
       { name := "A Variadic Trip with Gear"
         , expectedProperties :=
               [ Narrow.T.mk Bugginess.T.LightBugs (by narrowTac), Narrow.T.mk Bugginess.T.HeavyBugs (by narrowTac) ]
           ::: [ Narrow.T.mk Precipitation.T.YesPrecip (by narrowTac) ]
           ::: [ Narrow.T.mk Fashion.T.Casual (by narrowTac), Narrow.T.mk Fashion.T.Formal (by narrowTac) ]
           ::: HNil
-        , actualMassG := unionedEverything.massG
         , maxExpectedMassG := 57 -- If this was any lower it would fail to typecheck
         , massBound := by
-            simp [ unionedEverything,
-                  ItemColl.unionList,
-                  ItemColl.union,
-                  ItemColl.empty,
+            simp [ gearList,
+                  Item.unionList,
+                  Item.union,
+                  Item.empty,
                   bugproofShirt,
                   clammyWaterproofJacket,
                   spork
