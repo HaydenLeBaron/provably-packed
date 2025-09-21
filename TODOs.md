@@ -11,7 +11,8 @@
     ```
 
 - [INPROG] Implement Josh Bukoski System
-- [ ] Write a good README.md with instructions for usage
+- [x] Write basic README
+- [ ] Refine README
 - [ ] Make a YouTube video demoing the library
 
 
