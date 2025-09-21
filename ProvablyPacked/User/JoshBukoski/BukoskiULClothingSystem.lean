@@ -135,7 +135,70 @@ namespace Core
   -- TODO: implement the rest of his system according to the notes in `./User/JoshBukoski/README.md`
 
   namespace Pant
-    -- TODO: implement
+    open Body
+
+    def pantPropTypes :=
+      [
+        Insulation Lower,
+        Wind Lower,
+        Vent Lower,
+        Breathe Lower,
+        QuickDry Lower,
+        Mosquito Lower,
+        Durable Lower,
+        Sun Lower
+      ]
+
+    def sandFlyPants : Item.T (pantPropTypes) :=
+      { name := "Ex Officio Sandfly Pants"
+      , massG := 180 -- Typical weight for ultralight hiking pants
+      , properties :=
+              { values : List (Insulation Lower) := [.NoNeed Lower, .Needed Lower ]}
+          -- Wind resistant when needed
+          ::: { values := [Wind.NoNeed Lower, Wind.ResistNeeded Lower] }
+          -- Ventable for temperature regulation
+          ::: { values := [Vent.NoNeed Lower, Vent.AbleNeeded Lower] }
+          -- Breathable fabric
+          ::: { values := [Breathe.AbleNeeded Lower] }
+          -- Quick-drying synthetic fabric
+          ::: { values := [QuickDry.IsNeeded Lower] }
+          -- Mosquito-proof tight weave
+          ::: { values := [Mosquito.ProofNeeded Lower] }
+          -- Durable construction for hiking
+          ::: { values := [Durable.IsNeeded Lower] }
+          -- Sun protection with UPF rating
+          ::: { values := [Sun.ProofNeeded Lower] }
+          ::: HNil
+      }
+
+    def pantModule : List (Item.T pantPropTypes) := [sandFlyPants]
+
+    open Narrow Body in
+
+    def pantModuleInterface : Expedition.T
+      (actualItems := pantModule)
+      :=
+      { name := "Bukoski Ideal Pants"
+      , expectedProperties :=
+            [ .mk (Insulation.Needed Lower) (by nrrw) ]
+        ::: [ .mk (Wind.ResistNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Vent.AbleNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Breathe.AbleNeeded Lower) (by nrrw) ]
+        ::: [ .mk (QuickDry.IsNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Mosquito.ProofNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Durable.IsNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Sun.ProofNeeded Lower) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 180
+      , has_valid_mass := by
+          simp [ pantModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                sandFlyPants
+                ];
+      }
+
   end Pant
 
   namespace Fleece
