@@ -36,6 +36,30 @@
   | ProofNeeded (b : Body) | NoNeed (b : Body)
   deriving DecidableEq, Repr
 
+  inductive Hydrophobic (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive AiryAndLofty (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive Waterproof (b : Body) where
+  | Yes (b : Body) | Resist | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive Oversized (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive LooseFitting (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
+  inductive Compressible (b : Body) where
+  | Yes (b : Body) | No (b : Body)
+  deriving DecidableEq, Repr
+
   /-- Style is intentionally not parameterized by body
       because I am convinced that it takes only one
       article of clothing to make a whole outfit.

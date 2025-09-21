@@ -202,23 +202,258 @@ namespace Core
   end Pant
 
   namespace Fleece
-    -- TODO: implement
+    open Body
+
+    def fleecePropTypes :=
+      [
+        Insulation Torso,
+        QuickDry Torso,
+        Breathe Torso,
+        Hydrophobic Torso,
+        AiryAndLofty Torso
+      ]
+
+    def polarTechAlphaFleece : Item.T (fleecePropTypes) :=
+      { name := "Polartech Alpha Direct Fleece"
+      , massG := 200 -- Typical weight for ultralight fleece
+      , properties :=
+              { values : List (Insulation Torso) := [.Needed Torso]}
+          -- Quick-drying synthetic insulation
+          ::: { values := [QuickDry.IsNeeded Torso] }
+          -- Breathable for active use
+          ::: { values := [Breathe.AbleNeeded Torso] }
+          -- Hydrophobic treatment
+          ::: { values := [Hydrophobic.Yes Torso] }
+          -- Airy and lofty construction
+          ::: { values := [AiryAndLofty.Yes Torso] }
+          ::: HNil
+      }
+
+    def fleeceModule : List (Item.T fleecePropTypes) := [polarTechAlphaFleece]
+
+    open Narrow Body in
+
+    def fleeceModuleInterface : Expedition.T
+      (actualItems := fleeceModule)
+      :=
+      { name := "Bukoski Active Insulating Layer"
+      , expectedProperties :=
+            [ .mk (Insulation.Needed Torso) (by nrrw) ]
+        ::: [ .mk (QuickDry.IsNeeded Torso) (by nrrw) ]
+        ::: [ .mk (Breathe.AbleNeeded Torso) (by nrrw) ]
+        ::: [ .mk (Hydrophobic.Yes Torso) (by nrrw) ]
+        ::: [ .mk (AiryAndLofty.Yes Torso) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 200
+      , has_valid_mass := by
+          simp [ fleeceModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                polarTechAlphaFleece
+                ];
+      }
+
   end Fleece
 
   namespace UpperShell
-    -- TODO: implement
+    open Body
+
+    def upperShellPropTypes :=
+      [
+        Insulation Torso,
+        Vent Torso,
+        Waterproof Torso,
+        Wind Torso,
+        Oversized Torso
+      ]
+
+    def froggToggsJacket : Item.T (upperShellPropTypes) :=
+      { name := "Frogg Toggs Ultra-Lite2 Jacket"
+      , massG := 165 -- Typical weight for this jacket
+      , properties :=
+              { values : List (Insulation Torso) := [.Needed Torso]} -- Traps air for insulation
+          -- Ventable with pit zips
+          ::: { values := [Vent.AbleNeeded Torso] }
+          -- Waterproof protection
+          ::: { values := [Waterproof.Yes Torso] }
+          -- Windproof shell
+          ::: { values := [Wind.ProofNeeded Torso] }
+          -- Oversized for layering
+          ::: { values := [Oversized.Yes Torso] }
+          ::: HNil
+      }
+
+    def upperShellModule : List (Item.T upperShellPropTypes) := [froggToggsJacket]
+
+    open Narrow Body in
+
+    def upperShellModuleInterface : Expedition.T
+      (actualItems := upperShellModule)
+      :=
+      { name := "Bukoski Upper Shell"
+      , expectedProperties :=
+            [ .mk (Insulation.Needed Torso) (by nrrw) ]
+        ::: [ .mk (Vent.AbleNeeded Torso) (by nrrw) ]
+        ::: [ .mk (Waterproof.Yes Torso) (by nrrw) ]
+        ::: [ .mk (Wind.ProofNeeded Torso) (by nrrw) ]
+        ::: [ .mk (Oversized.Yes Torso) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 165
+      , has_valid_mass := by
+          simp [ upperShellModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                froggToggsJacket
+                ];
+      }
+
   end UpperShell
 
   namespace LowerShell
-    -- TODO: implement
+    open Body
+
+    def lowerShellPropTypes :=
+      [
+        Insulation Lower,
+        Vent Lower,
+        Waterproof Lower,
+        Wind Lower,
+        Oversized Lower,
+        LooseFitting Lower
+      ]
+
+    def shellPants : Item.T (lowerShellPropTypes) :=
+      { name := "Ultralight Shell Pants"
+      , massG := 120 -- Typical weight for ultralight shell pants
+      , properties :=
+              { values : List (Insulation Lower) := [.Needed Lower]} -- Traps air for insulation
+          -- Ventable with side zips
+          ::: { values := [Vent.AbleNeeded Lower] }
+          -- Waterproof protection
+          ::: { values := [Waterproof.Yes Lower] }
+          -- Windproof shell
+          ::: { values := [Wind.ProofNeeded Lower] }
+          -- Oversized for layering
+          ::: { values := [Oversized.Yes Lower] }
+          -- Loose fitting for comfort
+          ::: { values := [LooseFitting.Yes Lower] }
+          ::: HNil
+      }
+
+    def lowerShellModule : List (Item.T lowerShellPropTypes) := [shellPants]
+
+    open Narrow Body in
+
+    def lowerShellModuleInterface : Expedition.T
+      (actualItems := lowerShellModule)
+      :=
+      { name := "Bukoski Lower Shell"
+      , expectedProperties :=
+            [ .mk (Insulation.Needed Lower) (by nrrw) ]
+        ::: [ .mk (Vent.AbleNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Waterproof.Yes Lower) (by nrrw) ]
+        ::: [ .mk (Wind.ProofNeeded Lower) (by nrrw) ]
+        ::: [ .mk (Oversized.Yes Lower) (by nrrw) ]
+        ::: [ .mk (LooseFitting.Yes Lower) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 120
+      , has_valid_mass := by
+          simp [ lowerShellModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                shellPants
+                ];
+      }
+
   end LowerShell
 
   namespace Hat
-    -- TODO: implement
+    open Body
+
+    def hatPropTypes :=
+      [
+        QuickDry Head,
+        Sun Head
+      ]
+
+    def ultraLightHat : Item.T (hatPropTypes) :=
+      { name := "Ultralight Sun Hat"
+      , massG := 30 -- Typical weight for ultralight hat
+      , properties :=
+              { values : List (QuickDry Head) := [.IsNeeded Head]}
+          -- Sun protection
+          ::: { values := [Sun.ProofNeeded Head] }
+          ::: HNil
+      }
+
+    def hatModule : List (Item.T hatPropTypes) := [ultraLightHat]
+
+    open Narrow Body in
+
+    def hatModuleInterface : Expedition.T
+      (actualItems := hatModule)
+      :=
+      { name := "Bukoski Hat"
+      , expectedProperties :=
+            [ .mk (QuickDry.IsNeeded Head) (by nrrw) ]
+        ::: [ .mk (Sun.ProofNeeded Head) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 30
+      , has_valid_mass := by
+          simp [ hatModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                ultraLightHat
+                ];
+      }
+
   end Hat
 
   namespace Puffy
-    -- TODO: implement
+    open Body
+
+    def puffyPropTypes :=
+      [
+        Insulation Torso,
+        Compressible Torso
+      ]
+
+    def downJacket : Item.T (puffyPropTypes) :=
+      { name := "Ultralight Down Puffy"
+      , massG := 250 -- Typical weight for ultralight down jacket
+      , properties :=
+              { values : List (Insulation Torso) := [.Needed Torso]} -- High loft insulation
+          -- Compressible for packing
+          ::: { values := [Compressible.Yes Torso] }
+          ::: HNil
+      }
+
+    def puffyModule : List (Item.T puffyPropTypes) := [downJacket]
+
+    open Narrow Body in
+
+    def puffyModuleInterface : Expedition.T
+      (actualItems := puffyModule)
+      :=
+      { name := "Bukoski Puffy Insulation"
+      , expectedProperties :=
+            [ .mk (Insulation.Needed Torso) (by nrrw) ]
+        ::: [ .mk (Compressible.Yes Torso) (by nrrw) ]
+        ::: HNil
+      , maxExpectedMassG := 250
+      , has_valid_mass := by
+          simp [ puffyModule,
+                Item.unionList,
+                Item.union,
+                Item.empty,
+                downJacket
+                ];
+      }
+
   end Puffy
 
 end Core
