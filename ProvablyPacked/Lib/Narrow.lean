@@ -6,11 +6,8 @@ This module enables creating types that only accept certain constructors from a 
 -/
 
 namespace Narrow
-    /--
-    Implements "narrowed sum types" by providing a type-level representation of subsets of sum types and utils.
-
-    A `T` is a sum type whose set of `variants` form a subset of the variants of`α` .
-  -/
+  /-- Implements "narrowed sum types" by providing a type-level representation of subsets of sum types and utils.
+      A `T` is a sum type whose set of `variants` form a subset of the variants of`α` . -/
   inductive T (α : Type) (variants : List α) : Type where
     | mk (a : α) (h : a ∈ variants) : T α variants
 
@@ -25,17 +22,17 @@ end Narrow
 
 namespace Examples
 
-    inductive MyBoolT where | MyFalse | MyTrue
-    def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
+    private inductive MyBoolT where | MyFalse | MyTrue
+    private def OnlyMyTrueT := Narrow.T MyBoolT [MyBoolT.MyTrue]
 
-    /- Typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT` -/
-    def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
+    /-- Typechecks because `MyBoolT.MyTrue` is a member of `OnlyMyTrueT` -/
+    private def myTrue : OnlyMyTrueT := .mk MyBoolT.MyTrue (by narrowTac)
 
-    /- Fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT`-/
+    /-- Fails to typecheck because `MyBoolT.MyFalse` is not a member of `OnlyMyTrueT` -/
     --  def myFalse : OnlyMyTrueT := .mk MyBoolT.MyFalse (by narrowTac)
 
 
-    inductive OtherT where | Other
+    private inductive OtherT where | Other
 
     /- Next line failsto typecheck because `OtherT.Other` is not a member of `MyBoolT` -/
     -- def MyBoolAndMore := Narrow.T MyBoolT [MyBoolT.MyTrue, MyBoolT.MyFalse, OtherT.Other]

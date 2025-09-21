@@ -40,10 +40,6 @@ namespace PropertyHList
     | x :: xs => unionProperties x (unionPropertiesList xs)
     | [] => emptyProperties types
 
-  /- Get a property from a T by type index -/
-  -- def getValuesByType {types : List Type} (propertyHList : T types) {α : Type} (idx : α ∈ types) : Property α :=
-  --   propertyHList.properties.get idx
-
 
 end PropertyHList
 

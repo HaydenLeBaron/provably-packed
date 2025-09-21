@@ -4,10 +4,7 @@ import ProvablyPacked.Lib.PropertyHList
 -- TODO: I could make an Item.T a monoid
 namespace Item
 
-  /-- Mass in grams (negative mass intentionally allowed for hacky use-cases) --/
-  abbrev Gram := Int
-
-  /-
+  /--
     A T is a representation of an item.
 
     Items can be unioned together to form an item with the combined properties of the items.
@@ -15,11 +12,10 @@ namespace Item
   structure T
     (types : List Type) where
     name : Option String
-    massG: Gram
+    -- Mass in grams (negative mass intentionally allowed for hacky use-cases)
+    massG: Int
     properties : PropertyHList.T types
 
-
-    -- FIXME: figure out how to do the statically-knowable `massG` addition at compile-time
 
     /-- The identity for `union` -/
     def empty {types : List Type} : T types where
@@ -37,52 +33,9 @@ namespace Item
     def unionList {types : List Type} (name : Option String) (items : List (T types)) : T types :=
       items.foldl (union name) (empty)
 
-
-
-    -- theorem empty_items_mass_eq_0 :
-    --   (fun l : T => List.sum
-    --     (l.items.map (fun item => item.mass)))
-    --     Item.empty = 0 := by
-    --   simp [empty]
-
-
-    namespace Lemmas
-      def assertTotalMassIsLessThanOrEqual {types : List Type}
-      (item : T types)
-      (mass : Gram) : Prop :=
-        item.massG <= mass
-    end Lemmas
-
-
-    -- -- Simple predicate call theorem
-    -- theorem one_gram_items_mass_le_1 : Lemmas.assertTotalMassIsLessThanOrEqual oneGramLoadout 1 := by
-    --   simp [Lemmas.assertTotalMassIsLessThanOrEqual]
-    --   decide
-
 end Item
 
+
 namespace Examples
-  def empty : Item.T [] := Item.empty
-
-  def oneGramItem : Item.T [] :=
-    { name := "graham cracker"
-    , massG := 1
-    , properties := PropertyHList.emptyProperties [] }
-
-  def twoGramItem : Item.T [] :=
-    { name := "double graham cracker"
-    , massG := 2
-    , properties := PropertyHList.emptyProperties [] }
-
-  def threeGramItem : Item.T [] :=
-    { name := "s'more"
-    , massG := 3
-    , properties := PropertyHList.emptyProperties [] }
-
-  theorem one_gram_loadout_mass_le_1 :
-  Item.Lemmas.assertTotalMassIsLessThanOrEqual oneGramItem 1 := by
-    simp [Item.Lemmas.assertTotalMassIsLessThanOrEqual]
-    decide
-
-
+  -- TODO: write examples like in @HList.lean
 end Examples

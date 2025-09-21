@@ -10,7 +10,7 @@ universe u v
 
 namespace HList
 
-  /- A heterogeneous list indexed by a list of indices (universe-polymorphic). -/
+  /-- A heterogeneous list indexed by a list of indices (universe-polymorphic). -/
   inductive T {ι : Type u} (β : ι → Type v) : List ι → Type (max u v) where
     | nil : T β []
     | cons {i is} (head : β i) (tail : T β is) : T β (i :: is)
