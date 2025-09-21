@@ -134,4 +134,28 @@ namespace Core
 
   -- TODO: implement the rest of his system according to the notes in `./User/JoshBukoski/README.md`
 
+  namespace Pant
+    -- TODO: implement
+  end Pant
+
+  namespace Fleece
+    -- TODO: implement
+  end Fleece
+
+  namespace UpperShell
+    -- TODO: implement
+  end UpperShell
+
+  namespace LowerShell
+    -- TODO: implement
+  end LowerShell
+
+  namespace Hat
+    -- TODO: implement
+  end Hat
+
+  namespace Puffy
+    -- TODO: implement
+  end Puffy
+
 end Core
