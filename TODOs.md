@@ -9,7 +9,6 @@
     #guard_msgs in
     def x : Nat := "Not a number"
     ```
-- [ ] Rename Examples.lean to ExampleScratchpad.lean
 - [ ] Write a good README.md with instructions for usage
 - [ ] Make a YouTube video demoing the library
 
