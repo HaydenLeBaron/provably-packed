@@ -3,7 +3,7 @@ import ProvablyPacked.Lib.PropertiesHListComparator
 import ProvablyPacked.Models.Expedition
 import ProvablyPacked.Models.Item
 -- !!!!! IMPORTANT: Define and import your property types in your own file like this` before using them in this file! !!!!!
-import ProvablyPacked.User.Example.SimpleDomain1
+import ProvablyPacked.User.SimpleExample.SimpleDomain1
 
 
 /-! This file is a collection of examples that can be used to demonstrate and test the library. -/

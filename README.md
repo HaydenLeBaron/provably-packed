@@ -75,4 +75,5 @@ If it compiles, you have a machine-checked proof that your packing list meets th
 
 ## Status & roadmap
 
-- More examples and docs coming (e.g., parameterized properties, richer comparators, more complex example packing lists).
+- Usable MVP (see `./User/` for examples)
+- More examples and docs coming (e.g., richer comparators, more complex example packing lists).
