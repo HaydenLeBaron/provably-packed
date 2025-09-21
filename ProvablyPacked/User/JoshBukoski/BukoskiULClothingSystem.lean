@@ -132,4 +132,6 @@ namespace Core
 
   end Shirt
 
+  -- TODO: implement the rest of his system according to the notes in `./User/JoshBukoski/README.md`
+
 end Core
