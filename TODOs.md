@@ -11,6 +11,8 @@
     ```
 
 - [INPROG] Implement Josh Bukoski System
+    - [x] Draft it
+    - [ ] Check it (has to be exact properties of his actual gear)
 - [x] Write basic README
 - [ ] Refine README
 - [ ] Make a YouTube video demoing the library

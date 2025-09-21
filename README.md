@@ -11,7 +11,11 @@ Well you have come to the right place.
 
 ---
 
-`provably-packed` is a Lean 4 library for declaratively describing a correct-by-construction packing list using the power of dependent types. 
+![alt text](image.png)
+
+---
+
+`provably-packed` is a Lean 4 eDSL for declaratively describing a correct-by-construction packing list using the power of dependent types. 
 
 Describe:
 - your environment/conditions as custom sum types (e.g., `Bugginess.T`, `Precipitation.T`, `Fashion.T`),
@@ -19,7 +23,7 @@ Describe:
 - each item of gear you will carry, including its mass (looking at you my fellow [gram counters](https://www.reddit.com/r/ultralight_jerk/comments/7pqp8c/cutting_toothbrush_weight_tips/) )
 - and the conditions you expect to face plus a weight limit.
 
-Lean then checks—at compile time—that your gear can satisfy every expected condition and that your total mass is within bounds. If you see a red squiggly in your editor, you're not ready for your trip.
+Lean then checks, at compile time, that your gear can satisfy every expected condition and that your total mass is within bounds. If you see a red squiggly in your editor, you're not ready for your trip.
 
 ## How it works (Curry-Howard for hikers)
 
