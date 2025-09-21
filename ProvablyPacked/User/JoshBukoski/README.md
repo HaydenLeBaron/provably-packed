@@ -1,26 +1,11 @@
-# Josh Bukoski 3 Season System
+# Josh Bukoski's 3 Season Packing System
 
-## Sleep System
-
-- Conductive Insulation
-  - Interface:
-    - r >= 3
-  - Implementation:
-    - XLite pad
-- Sleeping Insulation
-    - Interface:
-        - Insulation (warm enough to sleep during the low temp at night)
-    - Implementation:
-        - Hiking Quilt | Puffy Jacket + Elephant Foot
-- Shelter
-    - Interface
-        - Waterproof-Breathable
-        - Windproof
-        - Stealth (nice to have)
-    - Implementation:
-        - Tent | EVent Bivy | Outdoor Research Helium Bivy
+[Josh Bukoski's Site](https://www.joshbukoski.com/)
 
 ## Clothing System
+
+Notes From his [excellent video](https://www.youtube.com/watch?v=0xKCqQSMjvE) about his ultralight 3 season clothing system.
+I highly recommend you watch if you are into optimizing your gear for backpacking trips.
 
 ### CORE:
   - **Shirt**`
@@ -104,3 +89,27 @@
         - Sun Gloves
         - Liner Gloves
         - Shell Gloves
+
+
+## Sleep System
+
+The below is my speculation on what his system might look like from videos I've seen of his.
+
+- Conductive Insulation
+  - Interface:
+    - r >= 4
+  - Implementation:
+    - XLite pad
+- Sleeping Insulation
+    - Interface:
+        - Insulation (warm enough to sleep during the low temp at night)
+    - Implementation:
+        - Hiking Quilt | Puffy Jacket + Elephant Foot
+- Shelter
+    - Interface
+        - Waterproof-Breathable
+        - Windproof
+        - Stealth (nice to have)
+    - Implementation:
+        - Tent | EVent Bivy | Outdoor Research Helium Bivy
+

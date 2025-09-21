@@ -2,8 +2,8 @@ import ProvablyPacked.Lib.Narrow
 import ProvablyPacked.Lib.PropertiesHListComparator
 import ProvablyPacked.Models.Expedition
 import ProvablyPacked.Models.Item
--- !!!!! IMPORTANT: Define your property types in User.Domain before using them in this file! !!!!!
-import ProvablyPacked.User.Domain
+-- !!!!! IMPORTANT: Define and import your property types in your own file like this` before using them in this file! !!!!!
+import ProvablyPacked.User.Example.SimpleDomain1
 
 
 /-! This file is a collection of examples that can be used to demonstrate and test the library. -/

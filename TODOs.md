@@ -9,6 +9,8 @@
     #guard_msgs in
     def x : Nat := "Not a number"
     ```
+
+- [INPROG] Implement Josh Bukoski System
 - [ ] Write a good README.md with instructions for usage
 - [ ] Make a YouTube video demoing the library
 
@@ -20,3 +22,4 @@
 
 NICE TO HAVE:
 - [ ] is propsToSigmaList? Can we remove this?
+- [ ] Nix flake for setting up dev env to run this (assuming you already have your favorite editor and a Lean 4 extension)

@@ -1,5 +1,5 @@
 /-!
-This is a user editable file where you can define the relevant properties of your expeditions/items.
+This is an example of a user editable/creatable file where you can define the relevant properties of your expeditions/items.
 
 TESTME: Note that this has currently only been tested with simple unparameterized sum types (enums).
 -/
